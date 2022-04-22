@@ -42,3 +42,10 @@ println roiDiscard.getClass()
 rm.setSelectedIndexes(roiDiscardInt)
 rm.runCommand(imp,"Delete")
 rm.runCommand(imp,"Deselect")
+
+// ROIs to Label Image with BIOP
+IJ.run(imp, "ROIs to Label image", "")
+impLabel = IJ.getImage()
+
+// Set Label Map with MorphoLibJ
+IJ.run(impLabel, "Set Label Map", "colormap=[Golden angle] background=Black shuffle")
