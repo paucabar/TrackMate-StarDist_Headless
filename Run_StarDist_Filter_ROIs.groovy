@@ -1,12 +1,11 @@
 #@ ImagePlus imp
 
 import ij.IJ
-//import ij.gui.Roi
 import ij.plugin.frame.RoiManager
 import ij.measure.ResultsTable
 
-def roiDiscard = []
-//roiDiscard.add(2)
+def roiDiscard = []// as int[]
+println roiDiscard.getClass() 
 
 RM = new RoiManager()
 rm = RM.getRoiManager()
@@ -25,19 +24,21 @@ rm.runCommand(imp,"Deselect");
 rm.runCommand(imp,"Measure");
 
 
-for (i=0; i<count; i++) {
+for (int i in 0..count-1) {
 	int area = rt.getValue("Area", i)
 	//println area
 	double mean = rt.getValue("Mean", i)
 	if (area < 50 || area > 600 || mean < 152.45) {
-		roiDiscard.add(i);
+		roiDiscard.add(i)
 	}
 }
 
 println roiDiscard
+def roiDiscardInt = roiDiscard.clone() as int[]
 
 // delete ROIs
 
-//rm.select(1);
-rm.setSelectedIndexes(roiDiscard)
-rm.runCommand(imp,"Delete");
+println roiDiscard.getClass() 
+rm.setSelectedIndexes(roiDiscardInt)
+rm.runCommand(imp,"Delete")
+rm.runCommand(imp,"Deselect")
