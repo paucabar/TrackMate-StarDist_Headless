@@ -4,6 +4,7 @@ import ij.IJ
 import ij.plugin.frame.RoiManager
 import ij.measure.ResultsTable
 
+// define empty list to fill with ROIs to be discarded
 def roiDiscard = []
 println roiDiscard.getClass() 
 
@@ -12,10 +13,10 @@ rm = RM.getRoiManager()
 RT = new ResultsTable()
 rt = RT.getResultsTable()
 
-
+// get ROIs as array and cout ROIs
 def roiList = rm.getRoisAsArray()
+int count = rm.getCount()
 println roiList
-int count = roiList.size()
 println count
 
 // set measurements ans generate results table
@@ -23,7 +24,7 @@ IJ.run("Set Measurements...", "area mean standard centroid display redirect=None
 rm.runCommand(imp,"Deselect");
 rm.runCommand(imp,"Measure");
 
-
+// get values from the result table and store the index of ROIs that fail to meet one or more criteria
 for (int i in 0..count-1) {
 	int area = rt.getValue("Area", i)
 	double mean = rt.getValue("Mean", i)
@@ -32,6 +33,7 @@ for (int i in 0..count-1) {
 	}
 }
 
+// copy the roiDiscard list as a list of integers
 println roiDiscard
 def roiDiscardInt = roiDiscard as int[]
 
