@@ -4,7 +4,7 @@ import ij.IJ
 import ij.plugin.frame.RoiManager
 import ij.measure.ResultsTable
 
-def roiDiscard = []// as int[]
+def roiDiscard = []
 println roiDiscard.getClass() 
 
 RM = new RoiManager()
@@ -26,7 +26,6 @@ rm.runCommand(imp,"Measure");
 
 for (int i in 0..count-1) {
 	int area = rt.getValue("Area", i)
-	//println area
 	double mean = rt.getValue("Mean", i)
 	if (area < 50 || area > 600 || mean < 152.45) {
 		roiDiscard.add(i)
@@ -34,18 +33,20 @@ for (int i in 0..count-1) {
 }
 
 println roiDiscard
-def roiDiscardInt = roiDiscard.clone() as int[]
+def roiDiscardInt = roiDiscard as int[]
 
 // delete ROIs
-
 println roiDiscard.getClass() 
 rm.setSelectedIndexes(roiDiscardInt)
 rm.runCommand(imp,"Delete")
-rm.runCommand(imp,"Deselect")
+
+// close results table
+IJ.selectWindow("Results")
+IJ.run("Close")
 
 // ROIs to Label Image with BIOP
-IJ.run(imp, "ROIs to Label image", "")
-impLabel = IJ.getImage()
+//IJ.run(imp, "ROIs to Label image", "")
+//impLabel = IJ.getImage()
 
 // Set Label Map with MorphoLibJ
-IJ.run(impLabel, "Set Label Map", "colormap=[Golden angle] background=Black shuffle")
+//IJ.run(impLabel, "Set Label Map", "colormap=[Golden angle] background=Black shuffle")
