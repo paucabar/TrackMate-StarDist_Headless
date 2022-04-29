@@ -30,14 +30,16 @@ settings.detectorFactory = new StarDistDetectorFactory()
 settings.detectorSettings['TARGET_CHANNEL'] = target_channel
 println settings.detectorSettings
 
-/*
+// Add ALL the feature analyzers known to TrackMate, via
+// providers.
+settings.addAllAnalyzers()
+
 // Configure spot filter
 filter1_spot = new FeatureFilter('AREA', 4.86, true)
 filter2_spot = new FeatureFilter('MEAN_INTENSITY_CH3', 12.51, true) // green
 settings.addSpotFilter(filter1_spot)
 settings.addSpotFilter(filter2_spot)
 println settings.spotFilters
-*/
 
 // Configure tracker
 settings.trackerFactory = new SparseLAPTrackerFactory()
@@ -47,12 +49,10 @@ settings.trackerSettings['LINKING_MAX_DISTANCE']  = linkingMax
 settings.trackerSettings['GAP_CLOSING_MAX_DISTANCE']  = closingMax
 println settings.trackerSettings
 
-/*
 // Configure track filter
 filter1_track = new FeatureFilter('TRACK_DURATION', minDuration, true)
 settings.addTrackFilter(filter1_track)
 println settings.trackFilters
-*/
 
 // Run TrackMate and store data into Model
 model = new Model()
