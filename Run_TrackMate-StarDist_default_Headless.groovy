@@ -15,6 +15,7 @@ import fiji.plugin.trackmate.features.FeatureFilter
 import fiji.plugin.trackmate.tracking.LAPUtils
 import fiji.plugin.trackmate.tracking.sparselap.SparseLAPTrackerFactory
 import fiji.plugin.trackmate.action.LabelImgExporter
+import ij.IJ
 
 
 //int target_channel = 4 // 1-based (1 is the first channel)
@@ -72,12 +73,32 @@ println trackmate.getErrorMessage()
 println model.getSpots().getNSpots(true)
 println model.getTrackModel().nTracks(true)
 
-// 
-
-path = new File(outputFolder, 'labels.tif').getAbsolutePath()
+// set the label image to display LUT properly
 def impLabels = LabelImgExporter.createLabelImagePlus(trackmate, false, true)
-//impLabels.show()
+setDisplayMinAndMax(impLabels)
+impLabels.show()
+
+// save label imge
+path = new File(outputFolder, 'labels.tif').getAbsolutePath()
 ij.IJ.save(impLabels, path)
+
+
+def setDisplayMinAndMax(imageStack) {
+	int nFrames = imageStack.getNFrames()
+	println nFrames
+	int maxStack = 0
+	for (i in 1..nFrames) {
+		def ip = imageStack.getStack().getProcessor(i)
+		maxImage = ip.getStats().max as int
+		if (maxImage > maxStack) {
+			maxStack = maxImage
+		}
+	}
+	println "Set display 0 - $maxStack"
+	
+	imageStack.setDisplayRange(0, maxStack)
+	IJ.run(imageStack, "glasbey inverted", "")
+}
 
 ////////////////////////////////////////////////////////////
 
