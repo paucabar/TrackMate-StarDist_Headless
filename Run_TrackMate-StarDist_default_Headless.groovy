@@ -1,5 +1,11 @@
 #@ ImagePlus imp
+#@ Integer (label="Target Channel", value=4, max=4, min=1, style="slider") targetChannel
+#@ Integer (label="Max Frame Gap [frames]", value=1) frameGap
+#@ Double (label="Linking Max Distance [calibrated]", value=4, persist=false) linkingMax
+#@ Double (label="Gap Closing Max Distance [calibrated]", value=4, persist=false) closingMax
+#@ Integer (label="Min Track Duration [rames]", value=2) minDuration
 #@ File (style = "directory", label = "Output folder") outputFolder
+
 
 import fiji.plugin.trackmate.Model
 import fiji.plugin.trackmate.Settings
@@ -10,11 +16,13 @@ import fiji.plugin.trackmate.tracking.LAPUtils
 import fiji.plugin.trackmate.tracking.sparselap.SparseLAPTrackerFactory
 import fiji.plugin.trackmate.action.LabelImgExporter
 
-int target_channel = 4 // 1-based (1 is the first channel)
-int frameGap = 1
-double linkingMax = 4
-double closingMax = 4
-int minDuration = 2
+
+//int target_channel = 4 // 1-based (1 is the first channel)
+//int frameGap = 1
+//double linkingMax = 4
+//double closingMax = 4
+//int minDuration = 2
+
 
 // Swap Z and T dimensions if T=1
 dims = imp.getDimensions() // default order: XYCZT
@@ -27,11 +35,10 @@ settings = new Settings(imp)
 
 // Configure StarDist default detector
 settings.detectorFactory = new StarDistDetectorFactory()
-settings.detectorSettings['TARGET_CHANNEL'] = target_channel
+settings.detectorSettings['TARGET_CHANNEL'] = targetChannel
 println settings.detectorSettings
 
-// Add ALL the feature analyzers known to TrackMate, via
-// providers.
+// add ALL the feature analyzers known to TrackMate, via providers
 settings.addAllAnalyzers()
 
 // Configure spot filter
@@ -75,10 +82,10 @@ ij.IJ.save(impLabels, path)
 ////////////////////////////////////////////////////////////
 
 // Try to print 10 spots and their features
-int countdown = 10
-for (def spot : model.getSpots().iterable(true)) {
-    println(spot.echo())
-    countdown--
-  if (countdown == 0)
-    break
-}
+//int countdown = 10
+//for (def spot : model.getSpots().iterable(true)) {
+//    println(spot.echo())
+//    countdown--
+//  if (countdown == 0)
+//    break
+//}
