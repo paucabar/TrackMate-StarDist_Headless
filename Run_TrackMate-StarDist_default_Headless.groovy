@@ -1,3 +1,15 @@
+/*
+ * Use default StarDist detector in TrackMate to generate 
+ * 3D labels by tracking 2D labels. Perform 3D analysis
+ * with MorphoLibJ
+ * 
+ * Author: Pau Carrillo Barberà
+ * BIOTECMED, Universitat de València
+ * IGC, University of Edinburgh
+ * 
+ * Last Modification: May 2022
+ */
+
 #@ ImagePlus imp
 #@ Integer (label="Target Channel", value=4, max=4, min=1, style="slider") targetChannel
 #@ Integer (label="Max Frame Gap [frames]", value=1) frameGap
@@ -16,13 +28,6 @@ import fiji.plugin.trackmate.tracking.LAPUtils
 import fiji.plugin.trackmate.tracking.sparselap.SparseLAPTrackerFactory
 import fiji.plugin.trackmate.action.LabelImgExporter
 import ij.IJ
-
-
-//int target_channel = 4 // 1-based (1 is the first channel)
-//int frameGap = 1
-//double linkingMax = 4
-//double closingMax = 4
-//int minDuration = 2
 
 
 // Swap Z and T dimensions if T=1
@@ -99,14 +104,3 @@ def setDisplayMinAndMax(imageStack) {
 	imageStack.setDisplayRange(0, maxStack)
 	IJ.run(imageStack, "glasbey inverted", "")
 }
-
-////////////////////////////////////////////////////////////
-
-// Try to print 10 spots and their features
-//int countdown = 10
-//for (def spot : model.getSpots().iterable(true)) {
-//    println(spot.echo())
-//    countdown--
-//  if (countdown == 0)
-//    break
-//}
