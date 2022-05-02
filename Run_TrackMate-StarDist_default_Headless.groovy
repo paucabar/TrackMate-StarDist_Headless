@@ -18,7 +18,6 @@
 #@ Integer (label="Min Track Duration [rames]", value=2) minDuration
 #@ File (style = "directory", label = "Output folder") outputFolder
 
-
 import fiji.plugin.trackmate.Model
 import fiji.plugin.trackmate.Settings
 import fiji.plugin.trackmate.TrackMate
@@ -28,7 +27,7 @@ import fiji.plugin.trackmate.tracking.LAPUtils
 import fiji.plugin.trackmate.tracking.sparselap.SparseLAPTrackerFactory
 import fiji.plugin.trackmate.action.LabelImgExporter
 import ij.IJ
-
+import inra.ijpb.plugins.AnalyzeRegions3D
 
 // Swap Z and T dimensions if T=1
 dims = imp.getDimensions() // default order: XYCZT
@@ -87,6 +86,10 @@ impLabels.show()
 path = new File(outputFolder, 'labels.tif').getAbsolutePath()
 ij.IJ.save(impLabels, path)
 
+// analyze 3D labels with MorphoLibJ
+//def ar3D = new AnalyzeRegions3D()
+//def table = ar3D.process(impLabels)
+//table.show("Results")
 
 def setDisplayMinAndMax(imageStack) {
 	int nFrames = imageStack.getNFrames()
