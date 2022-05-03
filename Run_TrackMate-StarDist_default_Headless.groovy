@@ -82,14 +82,17 @@ def impLabels = LabelImgExporter.createLabelImagePlus(trackmate, false, true)
 setDisplayMinAndMax(impLabels)
 impLabels.show()
 
+// Swap T and Z dimensions
+impLabels.setDimensions( dims[2,4,3] )
+
 // save label imge
 path = new File(outputFolder, 'labels.tif').getAbsolutePath()
 ij.IJ.save(impLabels, path)
 
 // analyze 3D labels with MorphoLibJ
-//def ar3D = new AnalyzeRegions3D()
-//def table = ar3D.process(impLabels)
-//table.show("Results")
+ar3D = new AnalyzeRegions3D()
+def table = ar3D.process(impLabels)
+table.show("Results")
 
 def setDisplayMinAndMax(imageStack) {
 	int nFrames = imageStack.getNFrames()
