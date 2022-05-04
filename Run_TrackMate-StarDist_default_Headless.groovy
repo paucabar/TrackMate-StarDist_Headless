@@ -11,11 +11,12 @@
  */
 
 #@ ImagePlus imp
-#@ Integer (label="Target Channel", value=4, max=4, min=1, style="slider") targetChannel
+#@ Integer (label="Target Channel [StarDist]", value=4, max=4, min=1, style="slider") targetChannel
+#@ Integer (label="Measure Channel", value=1, max=4, min=1, style="slider") measureChannel
 #@ Integer (label="Max Frame Gap [frames]", value=1) frameGap
 #@ Double (label="Linking Max Distance [calibrated]", value=4, persist=false) linkingMax
 #@ Double (label="Gap Closing Max Distance [calibrated]", value=4, persist=false) closingMax
-#@ Integer (label="Min Track Duration [rames]", value=2) minDuration
+#@ Integer (label="Min Track Duration [frames]", value=2) minDuration
 #@ File (style = "directory", label = "Output folder") outputFolder
 
 import fiji.plugin.trackmate.Model
@@ -47,8 +48,9 @@ println settings.detectorSettings
 settings.addAllAnalyzers()
 
 // Configure spot filter
+def spotFeatureMeanCh = "MEAN_INTENSITY_CH$measureChannel" as String
 filter1_spot = new FeatureFilter('AREA', 4.86, true)
-filter2_spot = new FeatureFilter('MEAN_INTENSITY_CH3', 12.51, true) // green
+filter2_spot = new FeatureFilter(spotFeatureMeanCh, 12.51, true)
 settings.addSpotFilter(filter1_spot)
 settings.addSpotFilter(filter2_spot)
 println settings.spotFilters
@@ -90,9 +92,9 @@ path = new File(outputFolder, 'labels.tif').getAbsolutePath()
 ij.IJ.save(impLabels, path)
 
 // analyze 3D labels with MorphoLibJ
-ar3D = new AnalyzeRegions3D()
-def table = ar3D.process(impLabels)
-table.show("Results")
+//ar3D = new AnalyzeRegions3D()
+//def table = ar3D.process(impLabels)
+//table.show("Results")
 
 def setDisplayMinAndMax(imageStack) {
 	int nFrames = imageStack.getNFrames()
