@@ -30,7 +30,8 @@ import fiji.plugin.trackmate.tracking.LAPUtils
 import fiji.plugin.trackmate.tracking.sparselap.SparseLAPTrackerFactory
 import fiji.plugin.trackmate.action.LabelImgExporter
 import ij.IJ
-//import inra.ijpb.plugins.AnalyzeRegions3D
+import inra.ijpb.plugins.AnalyzeRegions3D
+import ij.io.Opener
 
 // Swap Z and T dimensions if T=1
 dims = imp.getDimensions() // default order: XYCZT
@@ -87,17 +88,22 @@ setDisplayMinAndMax(impLabels)
 impLabels.show()
 
 // Swap T and Z dimensions
-impLabels.setDimensions( dims[2,4,3] )
+dimLabels = impLabels.getDimensions()
+impLabels.setDimensions( dimLabels[2,4,3] )
 
 // save label imge
 path = new File(outputFolder, 'labels.tif').getAbsolutePath()
 ij.IJ.save(impLabels, path)
 
+// open image
+op = new Opener()
+impAnalysis = op.openImage(path)
+
 // analyze 3D labels with MorphoLibJ
 //println impLabels.getClass()
-//ar3D = new AnalyzeRegions3D()
-//def table = ar3D.process(impLabels)
-//table.show("Results")
+ar3D = new AnalyzeRegions3D()
+def table = ar3D.process(impAnalysis)
+table.show("Results")
 
 def setDisplayMinAndMax(imageStack) {
 	int nFrames = imageStack.getNFrames()
