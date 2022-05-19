@@ -32,6 +32,7 @@ import fiji.plugin.trackmate.action.LabelImgExporter
 import ij.IJ
 import inra.ijpb.plugins.AnalyzeRegions3D
 import ij.io.Opener
+import ij.measure.ResultsTable
 
 // Swap Z and T dimensions if T=1
 dims = imp.getDimensions() // default order: XYCZT
@@ -104,6 +105,10 @@ impAnalysis = op.openImage(path)
 ar3D = new AnalyzeRegions3D()
 def table = ar3D.process(impAnalysis)
 table.show("Results")
+
+// save results table
+pathResults = new File(outputFolder, 'results.csv').getAbsolutePath()
+table.saveAs(pathResults)
 
 def setDisplayMinAndMax(imageStack) {
 	int nFrames = imageStack.getNFrames()
