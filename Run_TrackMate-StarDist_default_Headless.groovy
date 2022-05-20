@@ -107,7 +107,8 @@ def table = ar3D.process(impAnalysis)
 table.show("Results")
 
 // save results table
-pathResults = new File(outputFolder, 'results.csv').getAbsolutePath()
+String title = imp.getShortTitle()
+pathResults = new File(outputFolder, "results_${->title}.csv").getAbsolutePath()
 table.saveAs(pathResults)
 
 def setDisplayMinAndMax(imageStack) {
