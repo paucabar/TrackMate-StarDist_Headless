@@ -11,6 +11,8 @@
  */
 
 #@ ImagePlus imp
+#@ UpdateService updateService
+#@ UIService ui
 #@ Integer (label="Target Channel [StarDist]", value=4, max=4, min=1, style="slider") targetChannel
 #@ Integer (label="Measure Channel", value=1, max=4, min=1, style="slider") measureChannel
 #@ Double (label="MinSpotArea [calibrated]", value=5.0) minSpotArea
@@ -33,6 +35,17 @@ import ij.IJ
 import inra.ijpb.plugins.AnalyzeRegions3D
 import ij.io.Opener
 import ij.measure.ResultsTable
+
+// check update sites
+boolean checkStarDist = isUpdateSiteActive("StarDist");
+boolean checkCSBDeep = isUpdateSiteActive("CSBDeep");
+boolean checkTM_SD = isUpdateSiteActive("TrackMate-StarDist");
+boolean checkMorphoLibJ = isUpdateSiteActive("IJPB-plugins");
+
+// exit if any update site is missing
+if (!checkStarDist || !checkCSBDeep || !checkTM_SD || !checkMorphoLibJ) {
+	return
+}
 
 // Swap Z and T dimensions if T=1
 dims = imp.getDimensions() // default order: XYCZT
@@ -110,6 +123,15 @@ table.show("Results")
 String title = imp.getShortTitle()
 pathResults = new File(outputFolder, "results_${->title}.csv").getAbsolutePath()
 table.saveAs(pathResults)
+
+def isUpdateSiteActive (updateSite) {
+	checkUpdate = true
+	if (! updateService.getUpdateSite(updateSite).isActive()) {
+    	ui.showDialog "Please activate the $updateSite update site"
+    	checkUpdate = false
+	}
+	return checkUpdate
+}
 
 def setDisplayMinAndMax(imageStack) {
 	int nFrames = imageStack.getNFrames()
