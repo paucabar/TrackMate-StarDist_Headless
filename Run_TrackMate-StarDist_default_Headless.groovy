@@ -136,9 +136,11 @@ def isUpdateSiteActive (updateSite) {
 
 def setDisplayMinAndMax(imageStack) {
 	int nFrames = imageStack.getNFrames()
-	println nFrames
+	int nSlices = imageStack.getNSlices()
+	int nImages = nFrames * nSlices
+	println "$nFrames frames x $nSlices slices = $nImages images"
 	int maxStack = 0
-	for (i in 1..nFrames) {
+	for (i in 1..nImages) {
 		def ip = imageStack.getStack().getProcessor(i)
 		maxImage = ip.getStats().max as int
 		if (maxImage > maxStack) {
