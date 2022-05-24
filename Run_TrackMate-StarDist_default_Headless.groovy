@@ -103,11 +103,12 @@ setDisplayMinAndMax(impLabels)
 
 // Swap T and Z dimensions
 dimLabels = impLabels.getDimensions()
-impLabels.setDimensions( dimLabels[2,4,3] )
+impLabels.setDimensions(dimLabels[2,4,3])
+dimLabels = impLabels.getDimensions()
 
 // duplicate label image
 def dup = new Duplicator()
-def impLabelsDup = dup.run(impLabels, 1, 1, 1, impLabels.getNSlices(), 1, 1);
+def impLabelsDup = dup.run(impLabels, 1, dimLabels[2], 1, dimLabels[3], 1, dimLabels[4]);
 setDisplayMinAndMax(impLabelsDup)
 impLabelsDup.show()
 
