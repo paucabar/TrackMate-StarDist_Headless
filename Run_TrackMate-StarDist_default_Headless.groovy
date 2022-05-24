@@ -33,7 +33,7 @@ import fiji.plugin.trackmate.tracking.sparselap.SparseLAPTrackerFactory
 import fiji.plugin.trackmate.action.LabelImgExporter
 import ij.IJ
 import inra.ijpb.plugins.AnalyzeRegions3D
-import ij.io.Opener
+import ij.plugin.Duplicator
 import ij.measure.ResultsTable
 
 // check update sites
@@ -99,24 +99,25 @@ println model.getTrackModel().nTracks(true)
 // set the label image to display LUT properly
 def impLabels = LabelImgExporter.createLabelImagePlus(trackmate, false, true)
 setDisplayMinAndMax(impLabels)
-impLabels.show()
+//impLabels.show()
 
 // Swap T and Z dimensions
 dimLabels = impLabels.getDimensions()
 impLabels.setDimensions( dimLabels[2,4,3] )
 
+// duplicate label image
+def dup = new Duplicator()
+def impLabelsDup = dup.run(impLabels, 1, 1, 1, impLabels.getNSlices(), 1, 1);
+setDisplayMinAndMax(impLabelsDup)
+impLabelsDup.show()
+
 // save label imge
 path = new File(outputFolder, 'labels.tif').getAbsolutePath()
 ij.IJ.save(impLabels, path)
 
-// open image
-op = new Opener()
-impAnalysis = op.openImage(path)
-
 // analyze 3D labels with MorphoLibJ
-//println impLabels.getClass()
 ar3D = new AnalyzeRegions3D()
-def table = ar3D.process(impAnalysis)
+def table = ar3D.process(impLabelsDup)
 table.show("Results")
 
 // save results table
