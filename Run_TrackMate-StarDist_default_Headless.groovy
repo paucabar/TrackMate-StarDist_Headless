@@ -15,8 +15,9 @@
 #@ UIService ui
 #@ Integer (label="Target Channel [StarDist]", value=4, max=4, min=1, style="slider") targetChannel
 #@ Integer (label="Measure Channel", value=1, max=4, min=1, style="slider") measureChannel
-#@ Double (label="MinSpotArea [calibrated]", value=5.0) minSpotArea
-#@ Double (label="Mean Intensity Mean", value=12.5) minIntensityMean
+#@ Double (label="MinSpotArea [calibrated]", value=20.0) minSpotArea
+#@ Double (label="MaxSpotArea [calibrated]", value=130.0) maxSpotArea
+#@ Double (label="Mean Intensity Mean", value=45.5) minIntensityMean
 #@ Integer (label="Max Frame Gap [frames]", value=1) frameGap
 #@ Double (label="Linking Max Distance [calibrated]", value=4, persist=false) linkingMax
 #@ Double (label="Gap Closing Max Distance [calibrated]", value=4, persist=false) closingMax
@@ -67,9 +68,11 @@ settings.addAllAnalyzers()
 // Configure spot filter
 def spotFeatureMeanCh = "MEAN_INTENSITY_CH$measureChannel" as String
 filter1_spot = new FeatureFilter('AREA', minSpotArea, true)
-filter2_spot = new FeatureFilter(spotFeatureMeanCh, minIntensityMean, true)
+filter2_spot = new FeatureFilter('AREA', maxSpotArea, false)
+filter3_spot = new FeatureFilter(spotFeatureMeanCh, minIntensityMean, true)
 settings.addSpotFilter(filter1_spot)
 settings.addSpotFilter(filter2_spot)
+settings.addSpotFilter(filter3_spot)
 println settings.spotFilters
 
 // Configure tracker
