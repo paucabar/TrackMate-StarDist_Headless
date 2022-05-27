@@ -113,8 +113,9 @@ setDisplayMinAndMax(impLabelsDup)
 impLabelsDup.show()
 
 // save label imge
-path = new File(outputFolder, 'labels.tif').getAbsolutePath()
-ij.IJ.save(impLabels, path)
+String title = imp.getShortTitle()
+path = new File(outputFolder, "labels_${->title}.tif").getAbsolutePath()
+ij.IJ.save(impLabelsDup, path)
 
 // analyze 3D labels with MorphoLibJ
 ar3D = new AnalyzeRegions3D()
@@ -122,7 +123,6 @@ def table = ar3D.process(impLabelsDup)
 table.show("Results")
 
 // save results table
-String title = imp.getShortTitle()
 pathResults = new File(outputFolder, "results_${->title}.csv").getAbsolutePath()
 table.saveAs(pathResults)
 
