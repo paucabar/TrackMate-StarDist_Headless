@@ -14,7 +14,7 @@
 #@ UpdateService updateService
 #@ UIService ui
 #@ Integer (label="Target Channel [StarDist]", value=4, max=4, min=1, style="slider") targetChannel
-#@ Integer (label="Measure Channel", value=1, max=4, min=1, style="slider") measureChannel
+#@ Integer (label="Measure Channel", value=3, max=4, min=1, style="slider") measureChannel
 #@ Double (label="MinSpotArea [calibrated]", value=20.0) minSpotArea
 #@ Double (label="MaxSpotArea [calibrated]", value=130.0) maxSpotArea
 #@ Double (label="Mean Intensity Mean", value=45.5) minIntensityMean
