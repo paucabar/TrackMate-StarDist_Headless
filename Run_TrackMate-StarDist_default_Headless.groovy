@@ -49,8 +49,8 @@ if (!checkAll) {
 	return
 }
 
-// Calculate Square Root of the Target Channel
-dqrtStack(imp)
+// Target channel pre-processing: calculate square root
+sqrtStack(imp)
 
 // Swap Z and T dimensions if T=1
 dims = imp.getDimensions() // default order: XYCZT
@@ -142,11 +142,11 @@ def isUpdateSiteActive (updateSite) {
 	return checkUpdate
 }
 
-def dqrtStack(imagePlus) {
+def sqrtStack(imagePlus) {
 	nSlices = imagePlus.getNSlices()
 	println nSlices
 	for (int i in 1..nSlices) {
-		imagePlus.setPosition(4, i, 1)
+		imagePlus.setPosition(targetChannel, i, 1)
 		ip = imagePlus.getProcessor()
 		ip.sqrt()
 	}
