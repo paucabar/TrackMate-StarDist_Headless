@@ -8,7 +8,6 @@ rm = RoiManager.getInstance()
 rm.getRoisAsArray().eachWithIndex { roi, index ->
     def pos
     if (roi.hasHyperStackPosition()) {
-        // Completely untested!
         pos = impLabel.getStackIndex(roi.getCPosition(), roi.getZPosition(), roi.getZPosition())
     } else {
         pos = roi.getPosition()     
