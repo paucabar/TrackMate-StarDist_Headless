@@ -49,6 +49,9 @@ if (!checkAll) {
 	return
 }
 
+// Calculate Square Root of the Target Channel
+dqrtStack(imp)
+
 // Swap Z and T dimensions if T=1
 dims = imp.getDimensions() // default order: XYCZT
 if (dims[4] == 1) {
@@ -137,6 +140,16 @@ def isUpdateSiteActive (updateSite) {
     	checkUpdate = false
 	}
 	return checkUpdate
+}
+
+def dqrtStack(imagePlus) {
+	nSlices = imagePlus.getNSlices()
+	println nSlices
+	for (int i in 1..nSlices) {
+		imagePlus.setPosition(4, i, 1)
+		ip = imagePlus.getProcessor()
+		ip.sqrt()
+	}
 }
 
 def setDisplayMinAndMax(imageStack) {
