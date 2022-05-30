@@ -44,7 +44,8 @@ boolean checkTM_SD = isUpdateSiteActive("TrackMate-StarDist");
 boolean checkMorphoLibJ = isUpdateSiteActive("IJPB-plugins");
 
 // exit if any update site is missing
-if (!checkStarDist || !checkCSBDeep || !checkTM_SD || !checkMorphoLibJ) {
+boolean checkAll = checkStarDist & checkCSBDeep & checkTM_SD & checkMorphoLibJ
+if (!checkAll) {
 	return
 }
 
