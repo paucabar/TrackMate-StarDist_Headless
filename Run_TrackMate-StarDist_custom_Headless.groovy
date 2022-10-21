@@ -14,10 +14,10 @@
 #@ UpdateService updateService
 #@ UIService ui
 #@ File(label="StarDist Model", style="open") model_file
-#@ Integer (label="Target Channel [StarDist]", value=4, max=4, min=1, style="slider") targetChannel
+#@ Integer (label="Target Channel [StarDist]", value=1, max=4, min=1, style="slider") targetChannel
 //#@ Integer (label="Measure Channel", value=3, max=4, min=1, style="slider") measureChannel
-#@ Double (label="MinSpotArea [calibrated]", value=20.0) minSpotArea
-#@ Double (label="MaxSpotArea [calibrated]", value=130.0) maxSpotArea
+#@ Double (label="MinSpotArea [calibrated]", value=500.0) minSpotArea
+#@ Double (label="MaxSpotArea [calibrated]", value=5000.0) maxSpotArea
 //#@ Double (label="Min Intensity Mean", value=45.5) minIntensityMean
 #@ Integer (label="Max Frame Gap [frames]", value=1) frameGap
 #@ Double (label="Linking Max Distance [calibrated]", value=4, persist=false) linkingMax
@@ -64,7 +64,7 @@ settings = new Settings(imp)
 
 // Configure StarDist custom detector
 settings.detectorFactory = new StarDistCustomDetectorFactory()
-settings.detectorSettings['TARGET_CHANNEL'] = target_channel
+settings.detectorSettings['TARGET_CHANNEL'] = targetChannel
 settings.detectorSettings['SCORE_THRESHOLD'] = 0.41
 settings.detectorSettings['OVERLAP_THRESHOLD'] = 0.5
 settings.detectorSettings['MODEL_FILEPATH'] = (String)model_file.getAbsolutePath()
@@ -74,7 +74,7 @@ println settings.detectorSettings
 settings.addAllAnalyzers()
 
 // Configure spot filter
-def spotFeatureMeanCh = "MEAN_INTENSITY_CH$measureChannel" as String
+//def spotFeatureMeanCh = "MEAN_INTENSITY_CH$measureChannel" as String
 filter1_spot = new FeatureFilter('AREA', minSpotArea, true)
 filter2_spot = new FeatureFilter('AREA', maxSpotArea, false)
 //filter3_spot = new FeatureFilter(spotFeatureMeanCh, minIntensityMean, true)
@@ -97,8 +97,8 @@ settings.addTrackFilter(filter1_track)
 println settings.trackFilters
 
 // Run TrackMate and store data into Model
-model = new Model()
-trackmate = new TrackMate(model, settings)
+def model = new Model()
+def trackmate = new TrackMate(model, settings)
 
 println trackmate.checkInput()
 println trackmate.process()
