@@ -104,9 +104,11 @@ println model.getSpots().getNSpots(true)
 println model.getTrackModel().nTracks(true)
 
 // set the label image to display LUT properly
-def impLabels = LabelImgExporter.createLabelImagePlus(trackmate, false, true)
+boolean exportSpotsAsDots = false
+boolean exportTracksOnly = true
+ImagePlus impLabels = LabelImgExporter.createLabelImagePlus(trackmate, exportSpotsAsDots, exportTracksOnly)
 setDisplayMinAndMax(impLabels)
-//impLabels.show()
+impLabels.show()
 
 // Swap T and Z dimensions
 dimLabels = impLabels.getDimensions()
