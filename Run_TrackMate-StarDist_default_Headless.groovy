@@ -107,7 +107,8 @@ println model.getTrackModel().nTracks(true)
 // set the label image to display LUT properly
 boolean exportSpotsAsDots = false
 boolean exportTracksOnly = true
-ImagePlus impLabels = LabelImgExporter.createLabelImagePlus(trackmate, exportSpotsAsDots, exportTracksOnly)
+boolean useSpotIDsAsLabels = true
+ImagePlus impLabels = LabelImgExporter.createLabelImagePlus(trackmate, exportSpotsAsDots, exportTracksOnly, useSpotIDsAsLabels)
 setDisplayMinAndMax(impLabels)
 impLabels.show()
 
