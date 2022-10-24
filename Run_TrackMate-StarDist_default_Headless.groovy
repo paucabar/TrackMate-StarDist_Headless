@@ -32,6 +32,7 @@ import fiji.plugin.trackmate.features.FeatureFilter
 import fiji.plugin.trackmate.tracking.LAPUtils
 import fiji.plugin.trackmate.tracking.sparselap.SparseLAPTrackerFactory
 import fiji.plugin.trackmate.action.LabelImgExporter
+import ij.ImagePlus
 import ij.IJ
 import inra.ijpb.plugins.AnalyzeRegions3D
 import ij.plugin.Duplicator
