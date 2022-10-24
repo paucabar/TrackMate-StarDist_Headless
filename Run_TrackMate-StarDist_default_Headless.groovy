@@ -13,14 +13,14 @@
 #@ ImagePlus imp
 #@ UpdateService updateService
 #@ UIService ui
-#@ Integer (label="Target Channel [StarDist]", value=4, max=4, min=1, style="slider") targetChannel
-#@ Integer (label="Measure Channel", value=3, max=4, min=1, style="slider") measureChannel
-#@ Double (label="MinSpotArea [calibrated]", value=20.0) minSpotArea
-#@ Double (label="MaxSpotArea [calibrated]", value=130.0) maxSpotArea
-#@ Double (label="Min Intensity Mean", value=45.5) minIntensityMean
+#@ Integer (label="Target Channel [StarDist]", value=1, max=4, min=1, style="slider") targetChannel
+#@ Integer (label="Measure Channel", value=1, max=4, min=1, style="slider") measureChannel
+#@ Double (label="MinSpotArea [calibrated]", value=10.0) minSpotArea
+#@ Double (label="MaxSpotArea [calibrated]", value=100.0) maxSpotArea
+#@ Double (label="Min Intensity Mean", value=20.0) minIntensityMean
 #@ Integer (label="Max Frame Gap [frames]", value=1) frameGap
-#@ Double (label="Linking Max Distance [calibrated]", value=4, persist=false) linkingMax
-#@ Double (label="Gap Closing Max Distance [calibrated]", value=4, persist=false) closingMax
+#@ Double (label="Linking Max Distance [calibrated]", value=5, persist=false) linkingMax
+#@ Double (label="Gap Closing Max Distance [calibrated]", value=5, persist=false) closingMax
 #@ Integer (label="Min Track Duration [frames]", value=2) minDuration
 #@ File (style = "directory", label = "Output folder") outputFolder
 
@@ -107,7 +107,7 @@ println model.getTrackModel().nTracks(true)
 // set the label image to display LUT properly
 boolean exportSpotsAsDots = false
 boolean exportTracksOnly = true
-boolean useSpotIDsAsLabels = true
+boolean useSpotIDsAsLabels = false
 ImagePlus impLabels = LabelImgExporter.createLabelImagePlus(trackmate, exportSpotsAsDots, exportTracksOnly, useSpotIDsAsLabels)
 setDisplayMinAndMax(impLabels)
 impLabels.show()
