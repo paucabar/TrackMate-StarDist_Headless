@@ -17,7 +17,7 @@
 #@ Integer (label="Measure Channel", value=3, max=4, min=1, style="slider") measureChannel
 #@ Double (label="MinSpotArea [calibrated]", value=20.0) minSpotArea
 #@ Double (label="MaxSpotArea [calibrated]", value=130.0) maxSpotArea
-#@ Double (label="Mean Intensity Mean", value=45.5) minIntensityMean
+#@ Double (label="Min Intensity Mean", value=45.5) minIntensityMean
 #@ Integer (label="Max Frame Gap [frames]", value=1) frameGap
 #@ Double (label="Linking Max Distance [calibrated]", value=4, persist=false) linkingMax
 #@ Double (label="Gap Closing Max Distance [calibrated]", value=4, persist=false) closingMax
