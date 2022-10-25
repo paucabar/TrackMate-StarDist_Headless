@@ -35,6 +35,7 @@ import fiji.plugin.trackmate.features.FeatureFilter
 import fiji.plugin.trackmate.tracking.LAPUtils
 import fiji.plugin.trackmate.tracking.sparselap.SparseLAPTrackerFactory
 import fiji.plugin.trackmate.action.LabelImgExporter
+import ij.ImagePlus
 import ij.IJ
 import inra.ijpb.plugins.AnalyzeRegions3D
 import ij.plugin.Duplicator
@@ -106,8 +107,13 @@ println trackmate.getErrorMessage()
 println model.getSpots().getNSpots(true)
 println model.getTrackModel().nTracks(true)
 
+// create label image
+boolean exportSpotsAsDots = false
+boolean exportTracksOnly = true
+boolean useSpotIDsAsLabels = false
+ImagePlus impLabels = LabelImgExporter.createLabelImagePlus(trackmate, exportSpotsAsDots, exportTracksOnly, useSpotIDsAsLabels)
+
 // set the label image to display LUT properly
-def impLabels = LabelImgExporter.createLabelImagePlus(trackmate, false, true)
 setDisplayMinAndMax(impLabels)
 //impLabels.show()
 
@@ -120,7 +126,7 @@ dimLabels = impLabels.getDimensions()
 def dup = new Duplicator()
 def impLabelsDup = dup.run(impLabels, 1, dimLabels[2], 1, dimLabels[3], 1, dimLabels[4]);
 setDisplayMinAndMax(impLabelsDup)
-impLabelsDup.show()
+//impLabelsDup.show()
 
 // save label imge
 String title = imp.getShortTitle()
