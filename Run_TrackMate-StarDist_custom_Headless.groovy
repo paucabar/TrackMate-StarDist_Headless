@@ -16,8 +16,10 @@
 #@ File(label="StarDist Model", style="open") model_file
 #@ Integer (label="Target Channel [StarDist]", value=1, max=4, min=1, style="slider") targetChannel
 //#@ Integer (label="Measure Channel", value=3, max=4, min=1, style="slider") measureChannel
-#@ Double (label="MinSpotArea [calibrated]", value=500.0) minSpotArea
-#@ Double (label="MaxSpotArea [calibrated]", value=5000.0) maxSpotArea
+#@ Double (label="StarDist Score Threshold", value=0.41, min=0.0, max=1.0) scoreThr
+#@ Double (label="StarDist Overlap Threshold", value=0.5, min=0.0, max=1.0) overlapThr 
+#@ Double (label="MinSpotArea [calibrated]", value=10.0) minSpotArea
+#@ Double (label="MaxSpotArea [calibrated]", value=100.0) maxSpotArea
 //#@ Double (label="Min Intensity Mean", value=45.5) minIntensityMean
 #@ Integer (label="Max Frame Gap [frames]", value=1) frameGap
 #@ Double (label="Linking Max Distance [calibrated]", value=4, persist=false) linkingMax
@@ -62,8 +64,8 @@ settings = new Settings(imp)
 // Configure StarDist custom detector
 settings.detectorFactory = new StarDistCustomDetectorFactory()
 settings.detectorSettings['TARGET_CHANNEL'] = targetChannel
-settings.detectorSettings['SCORE_THRESHOLD'] = 0.41
-settings.detectorSettings['OVERLAP_THRESHOLD'] = 0.5
+settings.detectorSettings['SCORE_THRESHOLD'] = scoreThr
+settings.detectorSettings['OVERLAP_THRESHOLD'] = overlapThr
 settings.detectorSettings['MODEL_FILEPATH'] = (String)model_file.getAbsolutePath()
 println settings.detectorSettings
 
