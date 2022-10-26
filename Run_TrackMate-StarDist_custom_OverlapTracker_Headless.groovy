@@ -84,6 +84,8 @@ println settings.spotFilters
 
 // Configure tracker
 settings.trackerFactory = new OverlapTrackerFactory()
+//Uncoment to use default settings
+//settings.trackerSettings = settings.trackerFactory.getDefaultSettings()
 settings.trackerSettings['SCALE_FACTOR']  = scaleFactor
 settings.trackerSettings['MIN_IOU']  = minIoU
 settings.trackerSettings['IOU_CALCULATION']  = iou_calculation
