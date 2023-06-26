@@ -1,13 +1,14 @@
 #@ ImagePlus imp
 #@ File (style = "directory", label = "Output folder") outputFolder
 
+import ij.ImagePlus
 import fiji.plugin.trackmate.Model
 import fiji.plugin.trackmate.Settings
 import fiji.plugin.trackmate.TrackMate
-import fiji.plugin.trackmate.detection.LabeImageDetectorFactory
+import fiji.plugin.trackmate.detection.LabelImageDetectorFactory
 import fiji.plugin.trackmate.features.FeatureFilter
-import fiji.plugin.trackmate.tracking.LAPUtils
-import fiji.plugin.trackmate.tracking.sparselap.SparseLAPTrackerFactory
+import fiji.plugin.trackmate.tracking.jaqaman.LAPUtils
+import fiji.plugin.trackmate.tracking.jaqaman.SparseLAPTrackerFactory
 import fiji.plugin.trackmate.action.LabelImgExporter
 
 int target_channel = 1 // 1-based (1 is the first channel)
@@ -26,7 +27,7 @@ if (dims[4] == 1) {
 settings = new Settings(imp)
 
 // Configure StarDist default detector
-settings.detectorFactory = new LabeImageDetectorFactory()
+settings.detectorFactory = new LabelImageDetectorFactory()
 settings.detectorSettings['TARGET_CHANNEL'] = target_channel
 settings.detectorSettings['SIMPLIFY_CONTOURS'] = true
 println settings.detectorSettings
@@ -42,7 +43,7 @@ println settings.spotFilters
 
 // Configure tracker
 settings.trackerFactory = new SparseLAPTrackerFactory()
-settings.trackerSettings = LAPUtils.getDefaultLAPSettingsMap()
+settings.trackerSettings = settings.trackerFactory.getDefaultSettings()
 settings.trackerSettings['MAX_FRAME_GAP']  = frameGap
 settings.trackerSettings['LINKING_MAX_DISTANCE']  = linkingMax
 settings.trackerSettings['GAP_CLOSING_MAX_DISTANCE']  = closingMax
@@ -69,17 +70,9 @@ println model.getTrackModel().nTracks(true)
 // 
 
 path = new File(outputFolder, 'labels.tif').getAbsolutePath()
-def impLabels = LabelImgExporter.createLabelImagePlus(trackmate, false, true)
+boolean exportSpotsAsDots = false
+boolean exportTracksOnly = true
+boolean useSpotIDsAsLabels = false
+ImagePlus impLabels = LabelImgExporter.createLabelImagePlus(trackmate, exportSpotsAsDots, exportTracksOnly, useSpotIDsAsLabels)
 //impLabels.show()
 ij.IJ.save(impLabels, path)
-
-////////////////////////////////////////////////////////////
-
-// Try to print 10 spots and their features
-int countdown = 10
-for (def spot : model.getSpots().iterable(true)) {
-    println(spot.echo())
-    countdown--
-  if (countdown == 0)
-    break
-}
