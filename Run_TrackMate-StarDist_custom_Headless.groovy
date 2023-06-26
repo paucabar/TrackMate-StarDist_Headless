@@ -32,8 +32,8 @@ import fiji.plugin.trackmate.Settings
 import fiji.plugin.trackmate.TrackMate
 import fiji.plugin.trackmate.stardist.StarDistCustomDetectorFactory
 import fiji.plugin.trackmate.features.FeatureFilter
-import fiji.plugin.trackmate.tracking.LAPUtils
-import fiji.plugin.trackmate.tracking.sparselap.SparseLAPTrackerFactory
+import fiji.plugin.trackmate.tracking.jaqaman.LAPUtils
+import fiji.plugin.trackmate.tracking.jaqaman.SparseLAPTrackerFactory
 import fiji.plugin.trackmate.action.LabelImgExporter
 import ij.ImagePlus
 import ij.IJ
@@ -85,7 +85,7 @@ println settings.spotFilters
 
 // Configure tracker
 settings.trackerFactory = new SparseLAPTrackerFactory()
-settings.trackerSettings = LAPUtils.getDefaultLAPSettingsMap()
+settings.trackerSettings = settings.trackerFactory.getDefaultSettings()
 settings.trackerSettings['MAX_FRAME_GAP']  = frameGap
 settings.trackerSettings['LINKING_MAX_DISTANCE']  = linkingMax
 settings.trackerSettings['GAP_CLOSING_MAX_DISTANCE']  = closingMax
