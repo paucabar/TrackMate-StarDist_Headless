@@ -1,3 +1,15 @@
+/*
+ * Use label image detector in TrackMate to generate 
+ * 3D labels by tracking 2D labels. Perform 3D analysis
+ * with MorphoLibJ
+ * 
+ * Author: Pau Carrillo Barberà
+ * BIOTECMED, Universitat de València
+ * IGC, University of Edinburgh
+ * 
+ * Last Modification: June 2023
+ */
+
 #@ ImagePlus imp
 #@ File (style = "directory", label = "Output folder") outputFolder
 

@@ -7,7 +7,7 @@
  * BIOTECMED, Universitat de València
  * IGC, University of Edinburgh
  * 
- * Last Modification: October 2022
+ * Last Modification: June 2023
  */
 
 #@ ImagePlus imp
