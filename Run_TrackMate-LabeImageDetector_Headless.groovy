@@ -2,6 +2,7 @@
 #@ File (style = "directory", label = "Output folder") outputFolder
 
 import ij.ImagePlus
+import ij.IJ
 import fiji.plugin.trackmate.Model
 import fiji.plugin.trackmate.Settings
 import fiji.plugin.trackmate.TrackMate
@@ -16,6 +17,25 @@ int frameGap = 1
 double linkingMax = 4
 double closingMax = 4
 int minDuration = 2
+
+def setDisplayMinAndMax(imageStack) {
+	int nFrames = imageStack.getNFrames()
+	int nSlices = imageStack.getNSlices()
+	int nImages = nFrames * nSlices
+	println "$nFrames frames x $nSlices slices = $nImages images"
+	int maxStack = 0
+	for (i in 1..nImages) {
+		def ip = imageStack.getStack().getProcessor(i)
+		maxImage = ip.getStats().max as int
+		if (maxImage > maxStack) {
+			maxStack = maxImage
+		}
+	}
+	println "Set display 0 - $maxStack"
+	
+	imageStack.setDisplayRange(0, maxStack)
+	IJ.run(imageStack, "glasbey inverted", "")
+}
 
 // Swap Z and T dimensions if T=1
 dims = imp.getDimensions() // default order: XYCZT
@@ -74,5 +94,6 @@ boolean exportSpotsAsDots = false
 boolean exportTracksOnly = true
 boolean useSpotIDsAsLabels = false
 ImagePlus impLabels = LabelImgExporter.createLabelImagePlus(trackmate, exportSpotsAsDots, exportTracksOnly, useSpotIDsAsLabels)
-//impLabels.show()
+setDisplayMinAndMax(impLabels)
+impLabels.show()
 ij.IJ.save(impLabels, path)
